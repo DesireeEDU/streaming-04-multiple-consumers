@@ -13,6 +13,9 @@ import webbrowser
 import csv
 import logging
 
+from util_logger import setup_logger
+logger, logname = setup_logger(__file__)
+
 
 
 def offer_rabbitmq_admin_site(show_offer: bool = True):
@@ -51,7 +54,7 @@ def send_message(host: str, queue_name: str, message: str):
         # every message passes through an exchange
         ch.basic_publish(exchange="", routing_key=queue_name, body=message)
         # print a message to the console for the user
-        print(f" [x] Sent {message}")
+        logger.info(f" [x] Sent {message}")
     except pika.exceptions.AMQPConnectionError as e:
         print(f"Error: Connection to RabbitMQ server failed: {e}")
         sys.exit(1)
